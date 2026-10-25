@@ -1,0 +1,31 @@
+Description: archive_read_next_header2: clean old entry data
+ We need to clean old entry data in archive_read_next_header2 in Windows
+ and Posix disk readers to ensure consistent results. One possible
+ failure mode: sparse data from the previous entry is carried over to
+ next non-sparse file entry, causing it to be mishandled.
+Origin: upstream, https://github.com/libarchive/libarchive/pull/1218/commits/ea9c2354bac56ec7fc9c9d613c1706bf13809962
+Author: Dmitry Torokhov <dtor@chromium.org>
+Last-Update: 2019-09-20
+
+--- a/libarchive/archive_read_disk_posix.c
++++ b/libarchive/archive_read_disk_posix.c
+@@ -1143,6 +1143,8 @@
+ 		t->entry_fd = -1;
+ 	}
+ 
++	archive_entry_clear(entry);
++
+ 	for (;;) {
+ 		r = next_entry(a, t, entry);
+ 		if (t->entry_fd >= 0) {
+--- a/libarchive/archive_read_disk_windows.c
++++ b/libarchive/archive_read_disk_windows.c
+@@ -1126,6 +1126,8 @@
+ 		t->entry_fh = INVALID_HANDLE_VALUE;
+ 	}
+ 
++	archive_entry_clear(entry);
++
+ 	while ((r = next_entry(a, t, entry)) == ARCHIVE_RETRY)
+ 		archive_entry_clear(entry);
+ 

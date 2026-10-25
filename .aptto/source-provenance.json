@@ -1,0 +1,43 @@
+{
+  "package": "libarchive",
+  "version": "3.4.0-2ubuntu1.5",
+  "pocket": "Updates",
+  "published_at": "2025-04-23T19:22:36.480004+00:00",
+  "publication": "https://api.launchpad.net/1.0/ubuntu/+archive/primary/+sourcepub/17204996",
+  "source_files": [
+    "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0-2ubuntu1.5.dsc",
+    "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0-2ubuntu1.5.debian.tar.xz",
+    "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0.orig.tar.gz.asc",
+    "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0.orig.tar.gz"
+  ],
+  "source_integrity": {
+    "descriptor": {
+      "url": "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0-2ubuntu1.5.dsc",
+      "sha256": "7bdeaab28719c714aec49ba87f0e80bed1e3bb0a72aab3dcd3dec3dd0ecbe0ac",
+      "bytes": 2617
+    },
+    "archives": [
+      {
+        "name": "libarchive_3.4.0.orig.tar.gz",
+        "url": "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0.orig.tar.gz",
+        "sha256": "8643d50ed40c759f5412a3af4e353cffbce4fdf3b5cf321cb72cacf06b2d825e",
+        "bytes": 6908093
+      },
+      {
+        "name": "libarchive_3.4.0.orig.tar.gz.asc",
+        "url": "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0.orig.tar.gz.asc",
+        "sha256": "5aa9d657d9d2f2481a8dce1bab4c733cfc18657b451f6551d60f37cce4ca2f57",
+        "bytes": 833
+      },
+      {
+        "name": "libarchive_3.4.0-2ubuntu1.5.debian.tar.xz",
+        "url": "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/libarchive/3.4.0-2ubuntu1.5/libarchive_3.4.0-2ubuntu1.5.debian.tar.xz",
+        "sha256": "677bade6eeba5b5414d1ee48b8320e139d3ddb25f8d7b8728c04890571a491ed",
+        "bytes": 54556
+      }
+    ],
+    "signature_verified": false,
+    "verification_scope": "HTTPS publication and descriptor identity; archives must be checked against these hashes during import"
+  },
+  "import_verification": "Every referenced archive size and SHA-256 matched the source descriptor before extraction; descriptor PGP signature not verified"
+}

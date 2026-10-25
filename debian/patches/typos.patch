@@ -1,0 +1,1305 @@
+Description: Correct some typographical errors.
+Forwarded: https://github.com/libarchive/libarchive/pull/1249
+Author: Peter Pentchev <roam@ringlet.net>
+Last-Update: 2019-09-20
+
+--- a/libarchive/test/test_archive_write_add_filter_by_name.c
++++ b/libarchive/test/test_archive_write_add_filter_by_name.c
+@@ -48,7 +48,7 @@
+ 	r = archive_write_add_filter_by_name(a, filter_name);
+ 	if (r == ARCHIVE_WARN) {
+ 		if (!can_filter_prog()) {
+-			skipping("%s filter not suported on this platform",
++			skipping("%s filter not supported on this platform",
+ 			    filter_name);
+ 			assertEqualInt(ARCHIVE_OK, archive_write_free(a));
+ 			free(buff);
+@@ -59,7 +59,7 @@
+ 		   "lzma compression not supported on this platform") == 0 ||
+ 	     strcmp(archive_error_string(a),
+ 		   "xz compression not supported on this platform") == 0)) {
+-		skipping("%s filter not suported on this platform", filter_name);
++		skipping("%s filter not supported on this platform", filter_name);
+ 		assertEqualInt(ARCHIVE_OK, archive_write_free(a));
+ 		free(buff);
+ 		return;
+--- a/libarchive/test/test_archive_write_set_format_filter_by_ext.c
++++ b/libarchive/test/test_archive_write_set_format_filter_by_ext.c
+@@ -61,7 +61,7 @@
+ 	     strcmp(archive_error_string(a),
+ 		   "xz compression not supported on this platform") == 0)) {
+                 const char *filter_name = archive_filter_name(a, 0);
+-		skipping("%s filter not suported on this platform", filter_name);
++		skipping("%s filter not supported on this platform", filter_name);
+ 		assertEqualInt(ARCHIVE_OK, archive_write_free(a));
+ 		free(buff);
+ 		return;
+--- a/libarchive/archive_write_set_options.3
++++ b/libarchive/archive_write_set_options.3
+@@ -70,7 +70,7 @@
+ .Fn archive_write_set_filter_option ,
+ .Fn archive_write_set_format_option
+ .Xc
+-Specifies an option that will be passed to currently-registered
++Specifies an option that will be passed to the currently-registered
+ filters (including decompression filters) or format readers.
+ .Pp
+ If
+@@ -138,7 +138,7 @@
+ .Cm ARCHIVE_FATAL
+ will be returned
+ immediately.
+-Otherwise, greater of the two values will be returned.
++Otherwise, the greater of the two values will be returned.
+ .\"
+ .It Fn archive_write_set_options
+ .Ar options
+@@ -290,7 +290,7 @@
+ Default: disabled.
+ .It Cm allow-period
+ If enabled, allows filenames to contain trailing period characters, in violation of the ISO9660 specification.
+-If disabled,trailing periods will be converted to underscore characters.
++If disabled, trailing periods will be converted to underscore characters.
+ This does not impact names stored in the Rockridge or Joliet extension area.
+ Default: disabled.
+ .It Cm allow-pvd-lowercase
+@@ -416,7 +416,7 @@
+ The value is interpreted as a decimal integer specifying the
+ compression level.
+ Values between 0 and 9 are supported.
+-The interpretation of the compression level depends on the choosen
++The interpretation of the compression level depends on the chosen
+ compression method.
+ .El
+ .It Format zip
+--- a/doc/html/archive_entry_acl.3.html
++++ b/doc/html/archive_entry_acl.3.html
+@@ -138,7 +138,7 @@
+ <p style="margin-top: 1em"><b>DESCRIPTION</b></p>
+ 
+ <p style="margin-left:6%;">The &ldquo;Access Control Lists
+-(ACLs)&rdquo; extend the standard Unix perssion model. The
++(ACLs)&rdquo; extend the standard Unix permission model. The
+ ACL interface of <b>libarchive</b> supports both POSIX.1e
+ and NFSv4 style ACLs. Use of ACLs is restricted by various
+ levels of ACL support in operating systems, file systems and
+@@ -147,7 +147,7 @@
+ <p style="margin-left:6%; margin-top: 1em"><b>POSIX.1e
+ Access Control Lists</b> <br>
+ A POSIX.1e ACL consists of a number of independent entries.
+-Each entry specifies the permission set as bitmask of basic
++Each entry specifies the permission set as a bitmask of basic
+ permissions. Valid permissions in the <i>permset</i>
+ are:</p>
+ 
+@@ -173,12 +173,12 @@
+ 
+ <p>ARCHIVE_ENTRY_ACL_GROUP</p>
+ 
+-<p style="margin-left:51%;">The group specied by the name
++<p style="margin-left:51%;">The group specified by the name
+ field.</p>
+ 
+ <p>ARCHIVE_ENTRY_ACL_GROUP_OBJ</p>
+ 
+-<p style="margin-left:51%;">The group who owns the
++<p style="margin-left:51%;">The group which owns the
+ file.</p>
+ 
+ <p>ARCHIVE_ENTRY_ACL_MASK</p>
+@@ -188,7 +188,7 @@
+ 
+ <p>ARCHIVE_ENTRY_ACL_OTHER</p>
+ 
+-<p style="margin-left:51%;">Any principal who is not file
++<p style="margin-left:51%;">Any principal who is not the file
+ owner or a member of the owning group.</p>
+ 
+ <p style="margin-left:6%; margin-top: 1em">The principals
+@@ -197,12 +197,12 @@
+ other in the classic Unix permission model and specify
+ non-extended ACL entries.</p>
+ 
+-<p style="margin-left:6%; margin-top: 1em">All files with
++<p style="margin-left:6%; margin-top: 1em">All files
+ have an access ACL (ARCHIVE_ENTRY_ACL_TYPE_ACCESS). This
+ specifies the permissions required for access to the file
+ itself. Directories have an additional ACL
+ (ARCHIVE_ENTRY_ACL_TYPE_DEFAULT), which controls the initial
+-access ACL for newly created directory entries.</p>
++access ACL for newly-created directory entries.</p>
+ 
+ <p style="margin-left:6%; margin-top: 1em"><b>NFSv4 Access
+ Control Lists</b> <br>
+@@ -248,7 +248,7 @@
+ 
+ <p>ARCHIVE_ENTRY_ACL_GROUP</p>
+ 
+-<p style="margin-left:51%;">The group specied by the name
++<p style="margin-left:51%;">The group specified by the name
+ field.</p>
+ 
+ <p>ARCHIVE_ENTRY_ACL_GROUP_OBJ</p>
+@@ -258,7 +258,7 @@
+ 
+ <p>ARCHIVE_ENTRY_ACL_EVERYONE</p>
+ 
+-<p style="margin-left:51%;">Any principal who is not file
++<p style="margin-left:51%;">Any principal who is not the file
+ owner or a member of the owning group.</p>
+ 
+ <p style="margin-left:6%; margin-top: 1em">Entries with the
+@@ -436,7 +436,7 @@
+ 
+ <p style="margin-left:6%; margin-top: 1em">Supports all
+ formats that can be created with
+-<b>archive_entry_acl_to_text</b>() or respective
++<b>archive_entry_acl_to_text</b>() or respectively
+ <b>archive_entry_acl_to_text_w</b>(). Existing ACL entries
+ are preserved. To get a clean new ACL from text
+ <b>archive_entry_acl_clear</b>() must be called first.
+@@ -458,7 +458,7 @@
+ prepare reading the list of ACL entries with
+ <b>archive_entry_acl_next</b>() or
+ <b>archive_entry_acl_next_w</b>(). The function returns
+-either 0, if no non-extended ACLs are found. In this case,
++0 if no non-extended ACLs are found. In this case,
+ the access permissions should be obtained by
+ archive_entry_mode(3) or set using chmod(2). Otherwise, the
+ function returns the same value as
+--- a/doc/man/archive_entry_acl.3
++++ b/doc/man/archive_entry_acl.3
+@@ -72,7 +72,7 @@
+ .ad l
+ The
+ ``Access Control Lists (ACLs)''
+-extend the standard Unix perssion model.
++extend the standard Unix permission model.
+ The ACL interface of
+ \fB\%libarchive\fP
+ supports both POSIX.1e and NFSv4 style ACLs. Use of ACLs is restricted by
+@@ -80,7 +80,7 @@
+ formats.
+ .SS POSIX.1e Access Control Lists
+ A POSIX.1e ACL consists of a number of independent entries.
+-Each entry specifies the permission set as bitmask of basic permissions.
++Each entry specifies the permission set as a bitmask of basic permissions.
+ Valid permissions in the
+ are:
+ .RS 5
+@@ -102,13 +102,13 @@
+ It .BR ARCHIVE_ENTRY_ACL_USER_OBJ
+ The owner of the file.
+ It .BR ARCHIVE_ENTRY_ACL_GROUP
+-The group specied by the name field.
++The group specified by the name field.
+ It .BR ARCHIVE_ENTRY_ACL_GROUP_OBJ
+-The group who owns the file.
++The group which owns the file.
+ It .BR ARCHIVE_ENTRY_ACL_MASK
+ The maximum permissions to be obtained via group permissions.
+ It .BR ARCHIVE_ENTRY_ACL_OTHER
+-Any principal who is not file owner or a member of the owning group.
++Any principal who is not the file owner or a member of the owning group.
+ .RE
+ .PP
+ The principals
+@@ -119,12 +119,12 @@
+ are equivalent to user, group and other in the classic Unix permission
+ model and specify non-extended ACL entries.
+ .PP
+-All files with have an access ACL
++All files have an access ACL
+ (.BR ARCHIVE_ENTRY_ACL_TYPE_ACCESS.)
+ This specifies the permissions required for access to the file itself.
+ Directories have an additional ACL
+ (.BR ARCHIVE_ENTRY_ACL_TYPE_DEFAULT,)
+-which controls the initial access ACL for newly created directory entries.
++which controls the initial access ACL for newly-created directory entries.
+ .SS NFSv4 Access Control Lists
+ A NFSv4 ACL consists of multiple individual entries called Access Control
+ Entries (ACEs).
+@@ -151,11 +151,11 @@
+ It .BR ARCHIVE_ENTRY_ACL_USER_OBJ
+ The owner of the file.
+ It .BR ARCHIVE_ENTRY_ACL_GROUP
+-The group specied by the name field.
++The group specified by the name field.
+ It .BR ARCHIVE_ENTRY_ACL_GROUP_OBJ
+ The group who owns the file.
+ It .BR ARCHIVE_ENTRY_ACL_EVERYONE
+-Any principal who is not file owner or a member of the owning group.
++Any principal who is not the file owner or a member of the owning group.
+ .RE
+ .PP
+ Entries with the
+@@ -304,7 +304,7 @@
+ .RE
+ Supports all formats that can be created with
+ \fB\%archive_entry_acl_to_text\fP()
+-or respective
++or respectively
+ \fB\%archive_entry_acl_to_text_w\fP().
+ Existing ACL entries are preserved. To get a clean new ACL from text
+ \fB\%archive_entry_acl_clear\fP()
+@@ -335,7 +335,7 @@
+ \fB\%archive_entry_acl_next\fP()
+ or
+ \fB\%archive_entry_acl_next_w\fP().
+-The function returns either 0, if no non-extended ACLs are found.
++The function returns 0 if no non-extended ACLs are found.
+ In this case, the access permissions should be obtained by
+ \fBarchive_entry_mode\fP(3)
+ or set using
+--- a/doc/text/archive_entry_acl.3.txt
++++ b/doc/text/archive_entry_acl.3.txt
+@@ -62,14 +62,14 @@
+      archive_entry_acl_types(struct archive_entry *a);
+ 
+ DESCRIPTION
+-     The “Access Control Lists (ACLs)” extend the standard Unix perssion
++     The “Access Control Lists (ACLs)” extend the standard Unix permission
+      model.  The ACL interface of libarchive supports both POSIX.1e and NFSv4
+      style ACLs. Use of ACLs is restricted by various levels of ACL support in
+      operating systems, file systems and archive formats.
+ 
+    POSIX.1e Access Control Lists
+      A POSIX.1e ACL consists of a number of independent entries.  Each entry
+-     specifies the permission set as bitmask of basic permissions.  Valid per‐
++     specifies the permission set as a bitmask of basic permissions.  Valid per‐
+      missions in the permset are:
+ 	   ARCHIVE_ENTRY_ACL_READ (r)
+ 	   ARCHIVE_ENTRY_ACL_WRITE (w)
+@@ -80,21 +80,21 @@
+      values are:
+ 	   ARCHIVE_ENTRY_ACL_USER	The user specified by the name field.
+ 	   ARCHIVE_ENTRY_ACL_USER_OBJ	The owner of the file.
+-	   ARCHIVE_ENTRY_ACL_GROUP	The group specied by the name field.
+-	   ARCHIVE_ENTRY_ACL_GROUP_OBJ	The group who owns the file.
++	   ARCHIVE_ENTRY_ACL_GROUP	The group specified by the name field.
++	   ARCHIVE_ENTRY_ACL_GROUP_OBJ	The group which owns the file.
+ 	   ARCHIVE_ENTRY_ACL_MASK	The maximum permissions to be obtained
+ 					via group permissions.
+-	   ARCHIVE_ENTRY_ACL_OTHER	Any principal who is not file owner or
++	   ARCHIVE_ENTRY_ACL_OTHER	Any principal who is not the file owner or
+ 					a member of the owning group.
+ 
+      The principals ARCHIVE_ENTRY_ACL_USER_OBJ, ARCHIVE_ENTRY_ACL_GROUP_OBJ
+      and ARCHIVE_ENTRY_ACL_OTHER are equivalent to user, group and other in
+      the classic Unix permission model and specify non-extended ACL entries.
+ 
+-     All files with have an access ACL (ARCHIVE_ENTRY_ACL_TYPE_ACCESS).  This
++     All files have an access ACL (ARCHIVE_ENTRY_ACL_TYPE_ACCESS).  This
+      specifies the permissions required for access to the file itself.	Direc‐
+      tories have an additional ACL (ARCHIVE_ENTRY_ACL_TYPE_DEFAULT), which
+-     controls the initial access ACL for newly created directory entries.
++     controls the initial access ACL for newly-created directory entries.
+ 
+    NFSv4 Access Control Lists
+      A NFSv4 ACL consists of multiple individual entries called Access Control
+@@ -115,9 +115,9 @@
+      values are:
+ 	   ARCHIVE_ENTRY_ACL_USER	The user specified by the name field.
+ 	   ARCHIVE_ENTRY_ACL_USER_OBJ	The owner of the file.
+-	   ARCHIVE_ENTRY_ACL_GROUP	The group specied by the name field.
++	   ARCHIVE_ENTRY_ACL_GROUP	The group specified by the name field.
+ 	   ARCHIVE_ENTRY_ACL_GROUP_OBJ	The group who owns the file.
+-	   ARCHIVE_ENTRY_ACL_EVERYONE	Any principal who is not file owner or
++	   ARCHIVE_ENTRY_ACL_EVERYONE	Any principal who is not the file owner or
+ 					a member of the owning group.
+ 
+      Entries with the ARCHIVE_ENTRY_ACL_USER or ARCHIVE_ENTRY_ACL_GROUP tag
+@@ -210,7 +210,7 @@
+ 	   ARCHIVE_ENTRY_ACL_TYPE_DEFAULT
+ 	   ARCHIVE_ENTRY_ACL_TYPE_NFS4
+      Supports all formats that can be created with archive_entry_acl_to_text()
+-     or respective archive_entry_acl_to_text_w().  Existing ACL entries are
++     or respectively archive_entry_acl_to_text_w().  Existing ACL entries are
+      preserved. To get a clean new ACL from text archive_entry_acl_clear()
+      must be called first. Entries prefixed with “default:” are treated as
+      ARCHIVE_ENTRY_ACL_TYPE_DEFAULT unless type is
+@@ -224,7 +224,7 @@
+ 
+      archive_entry_acl_reset() prepare reading the list of ACL entries with
+      archive_entry_acl_next() or archive_entry_acl_next_w().  The function re‐
+-     turns either 0, if no non-extended ACLs are found.  In this case, the ac‐
++     turns 0 if no non-extended ACLs are found.  In this case, the ac‐
+      cess permissions should be obtained by archive_entry_mode(3) or set using
+      chmod(2).	Otherwise, the function returns the same value as
+      archive_entry_acl_count().
+--- a/doc/wiki/ManPageArchiveEntryAcl3.wiki
++++ b/doc/wiki/ManPageArchiveEntryAcl3.wiki
+@@ -68,7 +68,7 @@
+ == DESCRIPTION == 
+ The 
+ "Access Control Lists (ACLs)" 
+-extend the standard Unix perssion model. 
++extend the standard Unix permission model. 
+ The ACL interface of 
+ '''libarchive''' 
+ supports both POSIX.1e and NFSv4 style ACLs. Use of ACLs is restricted by 
+@@ -76,7 +76,7 @@
+ formats. 
+ === POSIX.1e Access Control Lists=== 
+ A POSIX.1e ACL consists of a number of independent entries. 
+-Each entry specifies the permission set as bitmask of basic permissions. 
++Each entry specifies the permission set as a bitmask of basic permissions. 
+ Valid permissions in the 
+ are: 
+ <dl> 
+@@ -100,16 +100,16 @@
+ The owner of the file. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_GROUP 
+-The group specied by the name field. 
++The group specified by the name field. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_GROUP_OBJ 
+-The group who owns the file. 
++The group which owns the file. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_MASK 
+ The maximum permissions to be obtained via group permissions. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_OTHER 
+-Any principal who is not file owner or a member of the owning group. 
++Any principal who is not the file owner or a member of the owning group. 
+ </dd> 
+ 
+ The principals 
+@@ -120,14 +120,14 @@
+ are equivalent to user, group and other in the classic Unix permission 
+ model and specify non-extended ACL entries. 
+ 
+-All files with have an access ACL 
++All files have an access ACL 
+ () 
+ ARCHIVE_ENTRY_ACL_TYPE_ACCESS. 
+ This specifies the permissions required for access to the file itself. 
+ Directories have an additional ACL 
+ () 
+ ARCHIVE_ENTRY_ACL_TYPE_DEFAULT, 
+-which controls the initial access ACL for newly created directory entries. 
++which controls the initial access ACL for newly-created directory entries. 
+ === NFSv4 Access Control Lists=== 
+ A NFSv4 ACL consists of multiple individual entries called Access Control 
+ Entries (ACEs). 
+@@ -159,13 +159,13 @@
+ The owner of the file. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_GROUP 
+-The group specied by the name field. 
++The group specified by the name field. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_GROUP_OBJ 
+-The group who owns the file. 
++The group which owns the file. 
+ </dd><dt></dt><dd> 
+ ARCHIVE_ENTRY_ACL_EVERYONE 
+-Any principal who is not file owner or a member of the owning group. 
++Any principal who is not the file owner or a member of the owning group. 
+ </dd> 
+ 
+ Entries with the 
+@@ -312,7 +312,7 @@
+ </dd></dl> 
+ Supports all formats that can be created with 
+ '''archive_entry_acl_to_text'''() 
+-or respective 
++or respectively
+ '''archive_entry_acl_to_text_w'''(). 
+ Existing ACL entries are preserved. To get a clean new ACL from text 
+ '''archive_entry_acl_clear'''() 
+@@ -343,7 +343,7 @@
+ '''archive_entry_acl_next'''() 
+ or 
+ '''archive_entry_acl_next_w'''(). 
+-The function returns either 0, if no non-extended ACLs are found. 
++The function returns 0 if no non-extended ACLs are found. 
+ In this case, the access permissions should be obtained by 
+ [[ManPageArchiveEntryMode3]] 
+ or set using 
+--- a/libarchive/archive_entry_acl.3
++++ b/libarchive/archive_entry_acl.3
+@@ -118,7 +118,7 @@
+ .Sh DESCRIPTION
+ The
+ .Dq Access Control Lists (ACLs)
+-extend the standard Unix perssion model.
++extend the standard Unix permission model.
+ The ACL interface of
+ .Nm libarchive
+ supports both POSIX.1e and NFSv4 style ACLs. Use of ACLs is restricted by
+@@ -126,7 +126,7 @@
+ formats.
+ .Ss POSIX.1e Access Control Lists
+ A POSIX.1e ACL consists of a number of independent entries.
+-Each entry specifies the permission set as bitmask of basic permissions.
++Each entry specifies the permission set as a bitmask of basic permissions.
+ Valid permissions in the
+ .Fa permset
+ are:
+@@ -147,13 +147,13 @@
+ .It Dv ARCHIVE_ENTRY_ACL_USER_OBJ
+ The owner of the file.
+ .It Dv ARCHIVE_ENTRY_ACL_GROUP
+-The group specied by the name field.
++The group specified by the name field.
+ .It Dv ARCHIVE_ENTRY_ACL_GROUP_OBJ
+-The group who owns the file.
++The group which owns the file.
+ .It Dv ARCHIVE_ENTRY_ACL_MASK
+ The maximum permissions to be obtained via group permissions.
+ .It Dv ARCHIVE_ENTRY_ACL_OTHER
+-Any principal who is not file owner or a member of the owning group.
++Any principal who is not the file owner or a member of the owning group.
+ .El
+ .Pp
+ The principals
+@@ -164,12 +164,12 @@
+ are equivalent to user, group and other in the classic Unix permission
+ model and specify non-extended ACL entries.
+ .Pp
+-All files with have an access ACL
++All files have an access ACL
+ .Pq Dv ARCHIVE_ENTRY_ACL_TYPE_ACCESS .
+ This specifies the permissions required for access to the file itself.
+ Directories have an additional ACL
+ .Pq Dv ARCHIVE_ENTRY_ACL_TYPE_DEFAULT ,
+-which controls the initial access ACL for newly created directory entries.
++which controls the initial access ACL for newly-created directory entries.
+ .Ss NFSv4 Access Control Lists
+ A NFSv4 ACL consists of multiple individual entries called Access Control
+ Entries (ACEs).
+@@ -197,11 +197,11 @@
+ .It Dv ARCHIVE_ENTRY_ACL_USER_OBJ
+ The owner of the file.
+ .It Dv ARCHIVE_ENTRY_ACL_GROUP
+-The group specied by the name field.
++The group specified by the name field.
+ .It Dv ARCHIVE_ENTRY_ACL_GROUP_OBJ
+-The group who owns the file.
++The group which owns the file.
+ .It Dv ARCHIVE_ENTRY_ACL_EVERYONE
+-Any principal who is not file owner or a member of the owning group.
++Any principal who is not the file owner or a member of the owning group.
+ .El
+ .Pp
+ Entries with the
+@@ -322,7 +322,7 @@
+ .El
+ Supports all formats that can be created with
+ .Fn archive_entry_acl_to_text
+-or respective
++or respectively
+ .Fn archive_entry_acl_to_text_w .
+ Existing ACL entries are preserved. To get a clean new ACL from text
+ .Fn archive_entry_acl_clear
+@@ -354,7 +354,7 @@
+ .Fn archive_entry_acl_next
+ or
+ .Fn archive_entry_acl_next_w .
+-The function returns either 0, if no non-extended ACLs are found.
++The function returns 0 if no non-extended ACLs are found.
+ In this case, the access permissions should be obtained by
+ .Xr archive_entry_mode 3
+ or set using
+--- a/doc/html/archive_read_add_passphrase.3.html
++++ b/doc/html/archive_read_add_passphrase.3.html
+@@ -65,9 +65,9 @@
+ 
+ <p style="margin-top: 1em"><b>archive_read_set_passphrase_callback</b>()</p>
+ 
+-<p style="margin-left:17%;">Register callback function that
+-will be invoked to get a passphrase for decrption after
+-trying all passphrases registered by the
++<p style="margin-left:17%;">Register a callback function that
++will be invoked to get a passphrase for decryption after
++trying all the passphrases registered by the
+ <b>archive_read_add_passphrase</b>() function failed.</p>
+ 
+ <p style="margin-top: 1em"><b>SEE ALSO</b></p>
+--- a/doc/man/archive_read_add_passphrase.3
++++ b/doc/man/archive_read_add_passphrase.3
+@@ -36,8 +36,8 @@
+ will be returned. 
+ .TP
+ \fB\%archive_read_set_passphrase_callback\fP()
+-Register callback function that will be invoked to get a passphrase 
+-for decrption after trying all passphrases registered by the
++Register a callback function that will be invoked to get a passphrase 
++for decryption after trying all the passphrases registered by the
+ \fB\%archive_read_add_passphrase\fP()
+ function failed.
+ .RE
+--- a/doc/text/archive_read_add_passphrase.3.txt
++++ b/doc/text/archive_read_add_passphrase.3.txt
+@@ -25,8 +25,8 @@
+ 	     returned.
+ 
+      archive_read_set_passphrase_callback()
+-	     Register callback function that will be invoked to get a
+-	     passphrase for decrption after trying all passphrases registered
++	     Register a callback function that will be invoked to get a
++	     passphrase for decryption after trying all the passphrases registered
+ 	     by the archive_read_add_passphrase() function failed.
+ 
+ SEE ALSO
+--- a/doc/wiki/ManPageArchiveReadAddPassphrase3.wiki
++++ b/doc/wiki/ManPageArchiveReadAddPassphrase3.wiki
+@@ -30,8 +30,8 @@
+ '''ARCHIVE_OK''' 
+ will be returned.  
+ </dd><dt>'''archive_read_set_passphrase_callback'''()</dt><dd> 
+-Register callback function that will be invoked to get a passphrase  
+-for decrption after trying all passphrases registered by the 
++Register a callback function that will be invoked to get a passphrase  
++for decryption after trying all the passphrases registered by the 
+ '''archive_read_add_passphrase'''() 
+ function failed. 
+ </dd></dl> 
+--- a/libarchive/archive_read_add_passphrase.3
++++ b/libarchive/archive_read_add_passphrase.3
+@@ -61,8 +61,8 @@
+ .Cm ARCHIVE_OK
+ will be returned. 
+ .It Fn archive_read_set_passphrase_callback
+-Register callback function that will be invoked to get a passphrase 
+-for decrption after trying all passphrases registered by the
++Register a callback function that will be invoked to get a passphrase 
++for decryption after trying all the passphrases registered by the
+ .Fn archive_read_add_passphrase
+ function failed.
+ .El
+--- a/doc/html/archive_read_disk.3.html
++++ b/doc/html/archive_read_disk.3.html
+@@ -143,7 +143,7 @@
+ 
+ <p style="margin-left:27%;">Skip files and directories with
+ the nodump file attribute (file flag) set. By default, the
+-nodump file atrribute is ignored.</p>
++nodump file attribute is ignored.</p>
+ 
+ <p><b>ARCHIVE_READDISK_MAC_COPYFILE</b></p>
+ 
+@@ -166,7 +166,7 @@
+ <p><b>ARCHIVE_READDISK_NO_TRAVERSE_MOUNTS</b></p>
+ 
+ <p style="margin-left:27%;">Do not traverse mount points.
+-By defaut, moint points are traversed.</p>
++By default, mount points are traversed.</p>
+ 
+ <p><b>ARCHIVE_READDISK_NO_XATTR</b></p>
+ 
+@@ -251,7 +251,7 @@
+ 
+ <p style="margin-left:17%; margin-top: 1em">Where
+ necessary, user and group ids are converted to user and
+-group names using the currently registered lookup functions
++group names using the currently-registered lookup functions
+ above. This affects the file ownership fields and ACL values
+ in the struct archive_entry object.</p>
+ 
+--- a/doc/man/archive_read_disk.3
++++ b/doc/man/archive_read_disk.3
+@@ -85,7 +85,7 @@
+ .TP
+ \fBARCHIVE_READDISK_HONOR_NODUMP\fP
+ Skip files and directories with the nodump file attribute (file flag) set.
+-By default, the nodump file atrribute is ignored.
++By default, the nodump file attribute is ignored.
+ .TP
+ \fBARCHIVE_READDISK_MAC_COPYFILE\fP
+ Mac OS X specific. Read metadata (ACLs and extended attributes) with
+@@ -110,7 +110,7 @@
+ .TP
+ \fBARCHIVE_READDISK_NO_TRAVERSE_MOUNTS\fP
+ Do not traverse mount points.
+-By defaut, moint points are traversed.
++By default, mount points are traversed.
+ .TP
+ \fBARCHIVE_READDISK_NO_XATTR\fP
+ Do not read extended file attributes (xattrs).
+@@ -207,7 +207,7 @@
+ (For example, directory traversal libraries often provide this information.)
+ .PP
+ Where necessary, user and group ids are converted to user and group names
+-using the currently registered lookup functions above.
++using the currently-registered lookup functions above.
+ This affects the file ownership fields and ACL values in the
+ Tn struct archive_entry
+ object.
+--- a/doc/text/archive_read_disk.3.txt
++++ b/doc/text/archive_read_disk.3.txt
+@@ -67,7 +67,7 @@
+ 	     the following values:
+ 	     ARCHIVE_READDISK_HONOR_NODUMP
+ 		     Skip files and directories with the nodump file attribute
+-		     (file flag) set.  By default, the nodump file atrribute
++		     (file flag) set.  By default, the nodump file attribute
+ 		     is ignored.
+ 	     ARCHIVE_READDISK_MAC_COPYFILE
+ 		     Mac OS X specific. Read metadata (ACLs and extended at‐
+@@ -82,7 +82,7 @@
+ 		     (Linux) or chflags(1) (FreeBSD, Mac OS X) for more infor‐
+ 		     mation on file attributes.
+ 	     ARCHIVE_READDISK_NO_TRAVERSE_MOUNTS
+-		     Do not traverse mount points.  By defaut, moint points
++		     Do not traverse mount points.  By default, mount points
+ 		     are traversed.
+ 	     ARCHIVE_READDISK_NO_XATTR
+ 		     Do not read extended file attributes (xattrs).  By de‐
+@@ -142,7 +142,7 @@
+ 	     tory traversal libraries often provide this information.)
+ 
+ 	     Where necessary, user and group ids are converted to user and
+-	     group names using the currently registered lookup functions
++	     group names using the currently-registered lookup functions
+ 	     above.  This affects the file ownership fields and ACL values in
+ 	     the struct archive_entry object.
+      More information about the struct archive object and the overall design
+--- a/doc/wiki/ManPageArchiveReadDisk3.wiki
++++ b/doc/wiki/ManPageArchiveReadDisk3.wiki
+@@ -78,7 +78,7 @@
+ <dl> 
+ <dt>'''ARCHIVE_READDISK_HONOR_NODUMP'''</dt><dd> 
+ Skip files and directories with the nodump file attribute (file flag) set. 
+-By default, the nodump file atrribute is ignored. 
++By default, the nodump file attribute is ignored. 
+ </dd><dt>'''ARCHIVE_READDISK_MAC_COPYFILE'''</dt><dd> 
+ Mac OS X specific. Read metadata (ACLs and extended attributes) with 
+ [[copyfile(3)|http://www.freebsd.org/cgi/man.cgi?query=copyfile&sektion=3]]. 
+@@ -99,7 +99,7 @@
+ for more information on file attributes. 
+ </dd><dt>'''ARCHIVE_READDISK_NO_TRAVERSE_MOUNTS'''</dt><dd> 
+ Do not traverse mount points. 
+-By defaut, moint points are traversed. 
++By default, mount points are traversed. 
+ </dd><dt>'''ARCHIVE_READDISK_NO_XATTR'''</dt><dd> 
+ Do not read extended file attributes (xattrs). 
+ By default, extended file attributes are read from disk. 
+@@ -195,7 +195,7 @@
+ (For example, directory traversal libraries often provide this information.) 
+ 
+ Where necessary, user and group ids are converted to user and group names 
+-using the currently registered lookup functions above. 
++using the currently-registered lookup functions above. 
+ This affects the file ownership fields and ACL values in the 
+ '''struct archive_entry''' 
+ object. 
+--- a/libarchive/archive_read_disk.3
++++ b/libarchive/archive_read_disk.3
+@@ -99,7 +99,7 @@
+ .Bl -tag -compact -width "indent"
+ .It Cm ARCHIVE_READDISK_HONOR_NODUMP
+ Skip files and directories with the nodump file attribute (file flag) set.
+-By default, the nodump file atrribute is ignored.
++By default, the nodump file attribute is ignored.
+ .It Cm ARCHIVE_READDISK_MAC_COPYFILE
+ Mac OS X specific. Read metadata (ACLs and extended attributes) with
+ .Xr copyfile 3 .
+@@ -120,7 +120,7 @@
+ for more information on file attributes.
+ .It Cm ARCHIVE_READDISK_NO_TRAVERSE_MOUNTS
+ Do not traverse mount points.
+-By defaut, moint points are traversed.
++By default, mount points are traversed.
+ .It Cm ARCHIVE_READDISK_NO_XATTR
+ Do not read extended file attributes (xattrs).
+ By default, extended file attributes are read from disk.
+@@ -216,7 +216,7 @@
+ (For example, directory traversal libraries often provide this information.)
+ .Pp
+ Where necessary, user and group ids are converted to user and group names
+-using the currently registered lookup functions above.
++using the currently-registered lookup functions above.
+ This affects the file ownership fields and ACL values in the
+ .Tn struct archive_entry
+ object.
+--- a/doc/html/archive_write_set_passphrase.3.html
++++ b/doc/html/archive_write_set_passphrase.3.html
+@@ -57,7 +57,7 @@
+ archive_write_set_passphrase</b>()</p>
+ 
+ <p style="margin-left:17%;">Set a passphrase for writing an
+-encryption archive. If <i>passphrase</i> is NULL or empty,
++encrypted archive. If <i>passphrase</i> is NULL or empty,
+ this function will do nothing and <b>ARCHIVE_FAILED</b> will
+ be returned. Otherwise, <b>ARCHIVE_OK</b> will be
+ returned.</p>
+@@ -65,8 +65,8 @@
+ 
+ <p style="margin-top: 1em"><b>archive_write_set_passphrase_callback</b>()</p>
+ 
+-<p style="margin-left:17%;">Register callback function that
+-will be invoked to get a passphrase for encrption if the
++<p style="margin-left:17%;">Register a callback function that
++will be invoked to get a passphrase for encryption if the
+ passphrase was not set by the
+ <b>archive_write_set_passphrase</b>() function.</p>
+ 
+--- a/doc/man/archive_write_set_passphrase.3
++++ b/doc/man/archive_write_set_passphrase.3
+@@ -23,7 +23,7 @@
+ .RS 5
+ .TP
+ \fB\%archive_write_set_passphrase\fP()
+-Set a passphrase for writing an encryption archive.
++Set a passphrase for writing an encrypted archive.
+ If
+ \fIpassphrase\fP
+ is
+@@ -36,8 +36,8 @@
+ will be returned. 
+ .TP
+ \fB\%archive_write_set_passphrase_callback\fP()
+-Register callback function that will be invoked to get a passphrase
+-for encrption if the passphrase was not set by the
++Register a callback function that will be invoked to get a passphrase
++for encryption if the passphrase was not set by the
+ \fB\%archive_write_set_passphrase\fP()
+ function.
+ .RE
+--- a/doc/text/archive_write_set_passphrase.3.txt
++++ b/doc/text/archive_write_set_passphrase.3.txt
+@@ -19,14 +19,14 @@
+ 
+ DESCRIPTION
+      archive_write_set_passphrase()
+-	     Set a passphrase for writing an encryption archive.  If
++	     Set a passphrase for writing an encrypted archive.  If
+ 	     passphrase is NULL or empty, this function will do nothing and
+ 	     ARCHIVE_FAILED will be returned.  Otherwise, ARCHIVE_OK will be
+ 	     returned.
+ 
+      archive_write_set_passphrase_callback()
+-	     Register callback function that will be invoked to get a
+-	     passphrase for encrption if the passphrase was not set by the
++	     Register a callback function that will be invoked to get a
++	     passphrase for encryption if the passphrase was not set by the
+ 	     archive_write_set_passphrase() function.
+ 
+ SEE ALSO
+--- a/doc/wiki/ManPageArchiveWriteSetPassphrase3.wiki
++++ b/doc/wiki/ManPageArchiveWriteSetPassphrase3.wiki
+@@ -18,7 +18,7 @@
+ == DESCRIPTION == 
+ <dl> 
+ <dt>'''archive_write_set_passphrase'''()</dt><dd> 
+-Set a passphrase for writing an encryption archive. 
++Set a passphrase for writing an encrypted archive. 
+ If 
+ ''passphrase'' 
+ is 
+@@ -30,8 +30,8 @@
+ '''ARCHIVE_OK''' 
+ will be returned.  
+ </dd><dt>'''archive_write_set_passphrase_callback'''()</dt><dd> 
+-Register callback function that will be invoked to get a passphrase 
+-for encrption if the passphrase was not set by the 
++Register a callback function that will be invoked to get a passphrase 
++for encryption if the passphrase was not set by the 
+ '''archive_write_set_passphrase'''() 
+ function. 
+ </dd></dl> 
+--- a/libarchive/archive_write_set_passphrase.3
++++ b/libarchive/archive_write_set_passphrase.3
+@@ -49,7 +49,7 @@
+ .Sh DESCRIPTION
+ .Bl -tag -width indent
+ .It Fn archive_write_set_passphrase
+-Set a passphrase for writing an encryption archive.
++Set a passphrase for writing an encrypted archive.
+ If
+ .Ar passphrase
+ is
+@@ -61,8 +61,8 @@
+ .Cm ARCHIVE_OK
+ will be returned. 
+ .It Fn archive_write_set_passphrase_callback
+-Register callback function that will be invoked to get a passphrase
+-for encrption if the passphrase was not set by the
++Register a callback function that will be invoked to get a passphrase
++for encryption if the passphrase was not set by the
+ .Fn archive_write_set_passphrase
+ function.
+ .El
+--- a/libarchive/archive_read_support_filter_lz4.c
++++ b/libarchive/archive_read_support_filter_lz4.c
+@@ -460,7 +460,7 @@
+ 
+ 	__archive_read_filter_consume(self->upstream, descriptor_bytes);
+ 
+-	/* Make sure we have an enough buffer for uncompressed data. */
++	/* Make sure we have a large enough buffer for uncompressed data. */
+ 	if (lz4_allocate_out_block(self) != ARCHIVE_OK)
+ 		return (ARCHIVE_FATAL);
+ 	if (state->flags.stream_checksum)
+@@ -520,7 +520,7 @@
+ 	if (read_buf == NULL)
+ 		goto truncated_error;
+ 
+-	/* Optional process, checking a block sum. */
++	/* Optional processing, checking a block sum. */
+ 	if (checksum_size) {
+ 		unsigned int chsum = __archive_xxhash.XXH32(
+ 			read_buf + 4, (int)compressed_size, 0);
+@@ -640,7 +640,7 @@
+ 	if (ret == 0 && *p == NULL)
+ 		state->stage = SELECT_STREAM;
+ 
+-	/* Optional process, checking a stream sum. */
++	/* Optional processing, checking a stream sum. */
+ 	if (state->flags.stream_checksum) {
+ 		if (state->stage == SELECT_STREAM) {
+ 			unsigned int checksum;
+@@ -660,7 +660,7 @@
+ 			if (checksum != checksum_stream) {
+ 				archive_set_error(&self->archive->archive,
+ 				    ARCHIVE_ERRNO_MISC,
+-				    "lz4 stream cheksum error");
++				    "lz4 stream checksum error");
+ 				return (ARCHIVE_FATAL);
+ 			}
+ 		} else if (ret > 0)
+--- a/libarchive/archive_read_support_format_zip.c
++++ b/libarchive/archive_read_support_format_zip.c
+@@ -487,7 +487,7 @@
+ 		/* Some ZIP files may have trailing 0 bytes. Let's check they
+ 		 * are all 0 and ignore them instead of returning an error.
+ 		 *
+-		 * This is not techincally correct, but some ZIP files look
++		 * This is not technically correct, but some ZIP files look
+ 		 * like this and other tools support those files - so let's
+ 		 * also  support them.
+ 		 */
+@@ -1053,7 +1053,7 @@
+ 
+ 	/* Make sure that entries with a trailing '/' are marked as directories
+ 	 * even if the External File Attributes contains bogus values.  If this
+-	 * is not a directory and there is no type, assume regularfile. */
++	 * is not a directory and there is no type, assume a regular file. */
+ 	if ((zip_entry->mode & AE_IFMT) != AE_IFDIR) {
+ 		int has_slash;
+ 
+@@ -1104,7 +1104,7 @@
+ 	}
+ 
+ 	if (zip_entry->flags & LA_FROM_CENTRAL_DIRECTORY) {
+-		/* If this came from the central dir, it's size info
++		/* If this came from the central dir, its size info
+ 		 * is definitive, so ignore the length-at-end flag. */
+ 		zip_entry->zip_flags &= ~ZIP_LENGTH_AT_END;
+ 		/* If local header is missing a value, use the one from
+--- a/libarchive/archive_string.c
++++ b/libarchive/archive_string.c
+@@ -458,7 +458,7 @@
+ 
+ 	if (from_cp == CP_C_LOCALE) {
+ 		/*
+-		 * "C" locale special process.
++		 * "C" locale special processing.
+ 		 */
+ 		wchar_t *ws;
+ 		const unsigned char *mp;
+@@ -680,7 +680,7 @@
+ 
+ 	if (to_cp == CP_C_LOCALE) {
+ 		/*
+-		 * "C" locale special process.
++		 * "C" locale special processing.
+ 		 */
+ 		const wchar_t *wp = ws;
+ 		char *p;
+@@ -889,7 +889,7 @@
+      struct archive_string_conv *))
+ {
+ 	if (sc == NULL || sc->nconverter >= 2)
+-		__archive_errx(1, "Programing error");
++		__archive_errx(1, "Programming error");
+ 	sc->converter[sc->nconverter++] = converter;
+ }
+ 
+--- a/libarchive/archive_write_set_format_iso9660.c
++++ b/libarchive/archive_write_set_format_iso9660.c
+@@ -3650,7 +3650,7 @@
+ 	if (size > iso9660->wbuff_remaining ||
+ 	    iso9660->wbuff_remaining == 0) {
+ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC,
+-		    "Internal Programing error: iso9660:wb_consume()"
++		    "Internal Programming error: iso9660:wb_consume()"
+ 		    " size=%jd, wbuff_remaining=%jd",
+ 		    (intmax_t)size, (intmax_t)iso9660->wbuff_remaining);
+ 		return (ARCHIVE_FATAL);
+@@ -3671,7 +3671,7 @@
+ 
+ 	if (iso9660->wbuff_type != WB_TO_TEMP) {
+ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC,
+-		    "Internal Programing error: iso9660:wb_set_offset()");
++		    "Internal Programming error: iso9660:wb_set_offset()");
+ 		return (ARCHIVE_FATAL);
+ 	}
+ 
+@@ -8128,7 +8128,7 @@
+ {
+ 	(void)buff; /* UNUSED */
+ 	(void)s; /* UNUSED */
+-	archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC, "Programing error");
++	archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC, "Programming error");
+ 	return (ARCHIVE_FATAL);
+ }
+ 
+--- a/libarchive/archive_write_set_format_mtree.c
++++ b/libarchive/archive_write_set_format_mtree.c
+@@ -186,7 +186,7 @@
+ #endif
+ 	/* Keyword options */
+ 	int keys;
+-#define	F_CKSUM		0x00000001		/* check sum */
++#define	F_CKSUM		0x00000001		/* checksum */
+ #define	F_DEV		0x00000002		/* device type */
+ #define	F_DONE		0x00000004		/* directory done */
+ #define	F_FLAGS		0x00000008		/* file flags */
+@@ -371,7 +371,7 @@
+ }
+ 
+ /*
+- * Indent a line as mtree utility to be readable for people.
++ * Indent a line as the mtree utility does so it is readable for people.
+  */
+ static void
+ mtree_indent(struct mtree_writer *mtree)
+@@ -446,8 +446,8 @@
+ 
+ /*
+  * Write /set keyword.
+- * Set most used value of uid,gid,mode and fflags, which are
+- * collected by attr_counter_set_collect() function.
++ * Set the most used value of uid, gid, mode and fflags, which are
++ * collected by the attr_counter_set_collect() function.
+  */
+ static void
+ write_global(struct mtree_writer *mtree)
+@@ -649,7 +649,7 @@
+ }
+ 
+ /*
+- * Tabulate uid,gid,mode and fflags of a entry in order to be used for /set.
++ * Tabulate uid, gid, mode and fflags of a entry in order to be used for /set.
+  */
+ static int
+ attr_counter_set_collect(struct mtree_writer *mtree, struct mtree_entry *me)
+@@ -912,7 +912,7 @@
+ 
+ 	/* If the current file is a regular file, we have to
+ 	 * compute the sum of its content.
+-	 * Initialize a bunch of sum check context. */
++	 * Initialize a bunch of checksum context. */
+ 	if (mtree_entry->reg_info)
+ 		sum_init(mtree);
+ 
+@@ -1265,7 +1265,7 @@
+ 	if (mtree == NULL)
+ 		return (ARCHIVE_OK);
+ 
+-	/* Make sure we dot not leave any entries. */
++	/* Make sure we do not leave any entries. */
+ 	mtree_entry_register_free(mtree);
+ 	archive_string_free(&mtree->cur_dirstr);
+ 	archive_string_free(&mtree->ebuf);
+@@ -2024,7 +2024,7 @@
+ 
+ 	if (file->parentdir.length == 0) {
+ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC,
+-		    "Internal programing error "
++		    "Internal programming error "
+ 		    "in generating canonical name for %s",
+ 		    file->pathname.s);
+ 		return (ARCHIVE_FAILED);
+--- a/tar/test/test_option_xattrs.c
++++ b/tar/test/test_option_xattrs.c
+@@ -28,7 +28,7 @@
+ DEFINE_TEST(test_option_xattrs)
+ {
+ #if !ARCHIVE_XATTR_SUPPORT
+-        skipping("Extended atributes are not supported on this platform");
++        skipping("Extended attributes are not supported on this platform");
+ #else	/* ARCHIVE_XATTR_SUPPORT */
+ 
+ 	const char *testattr = "user.libarchive.test";
+--- a/test_utils/test_main.c
++++ b/test_utils/test_main.c
+@@ -298,7 +298,7 @@
+ 	ret = (*f)(src, tgt, tmpflags);
+ 	/*
+ 	 * Prior to Windows 10 the SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+-	 * is not undestood
++	 * is not understood
+ 	 */
+ 	if (!ret)
+ 		ret = (*f)(src, tgt, flags);
+--- a/doc/html/archive_entry_paths.3.html
++++ b/doc/html/archive_entry_paths.3.html
+@@ -254,7 +254,7 @@
+ <p style="margin-top: 1em">UTF-8</p>
+ 
+ <p style="margin-left:21%; margin-top: 1em">Unicode strings
+-encoded as UTF-8. This are convience functions to update
++encoded as UTF-8. These are convenience functions to update
+ both the multibyte and wide character strings at the same
+ time.</p>
+ 
+@@ -264,7 +264,7 @@
+ 
+ <p style="margin-left:6%; margin-top: 1em">For that reason,
+ it is only available as multibyte string. The link path is a
+-convience function for conditionally setting hardlink or
++convenience function for conditionally setting hardlink or
+ symlink destination. It doesn&rsquo;t have a corresponding
+ get accessor function.</p>
+ 
+--- a/doc/html/archive_entry_perms.3.html
++++ b/doc/html/archive_entry_perms.3.html
+@@ -217,7 +217,7 @@
+ <b>archive_entry_set_gid</b>(), and
+ <b>archive_entry_set_perm</b>() store the given user id,
+ group id and permission in the entry. The permission is also
+-set as side effect of calling
++set as a side effect of calling
+ <b>archive_entry_set_mode</b>().</p>
+ 
+ 
+@@ -244,7 +244,7 @@
+ <p style="margin-top: 1em">UTF-8</p>
+ 
+ <p style="margin-left:21%; margin-top: 1em">Unicode strings
+-encoded as UTF-8. This are convience functions to update
++encoded as UTF-8. These are convenience functions to update
+ both the multibyte and wide character strings at the same
+ time.</p>
+ 
+@@ -283,7 +283,7 @@
+ text format is a comma-separated list of flag names. The
+ <b>archive_entry_copy_fflags_text</b>() and
+ <b>archive_entry_copy_fflags_text_w</b>() functions parse
+-the provided text and sets the internal bitmap values. This
++the provided text and set the internal bitmap values. This
+ is a platform-specific operation; names that are not
+ meaningful on the current platform will be ignored. The
+ function returns a pointer to the start of the first name
+--- a/doc/man/archive_entry_paths.3
++++ b/doc/man/archive_entry_paths.3
+@@ -167,7 +167,7 @@
+ .TP
+ UTF-8
+ Unicode strings encoded as UTF-8.
+-This are convience functions to update both the multibyte and wide
++These are convenience functions to update both the multibyte and wide
+ character strings at the same time.
+ .RE
+ .PP
+@@ -175,7 +175,7 @@
+ archive directly.
+ .PP
+ For that reason, it is only available as multibyte string.
+-The link path is a convience function for conditionally setting
++The link path is a convenience function for conditionally setting
+ hardlink or symlink destination.
+ It doesn't have a corresponding get accessor function.
+ .PP
+--- a/doc/man/archive_entry_perms.3
++++ b/doc/man/archive_entry_perms.3
+@@ -143,7 +143,7 @@
+ and
+ \fB\%archive_entry_set_perm\fP()
+ store the given user id, group id and permission in the entry.
+-The permission is also set as side effect of calling
++The permission is also set as a side effect of calling
+ \fB\%archive_entry_set_mode\fP().
+ .PP
+ \fB\%archive_entry_strmode\fP()
+@@ -163,7 +163,7 @@
+ .TP
+ UTF-8
+ Unicode strings encoded as UTF-8.
+-This are convience functions to update both the multibyte and wide
++These are convenience functions to update both the multibyte and wide
+ character strings at the same time.
+ .RE
+ .PP
+@@ -202,7 +202,7 @@
+ \fB\%archive_entry_copy_fflags_text\fP()
+ and
+ \fB\%archive_entry_copy_fflags_text_w\fP()
+-functions parse the provided text and sets the internal bitmap values.
++functions parse the provided text and set the internal bitmap values.
+ This is a platform-specific operation; names that are not meaningful
+ on the current platform will be ignored.
+ The function returns a pointer to the start of the first name that was not
+--- a/doc/text/archive_entry_paths.3.txt
++++ b/doc/text/archive_entry_paths.3.txt
+@@ -117,7 +117,7 @@
+      wchar_t *	Wide character strings in the current locale.  The accessor
+ 		functions are named XXX_w().
+ 
+-     UTF-8	Unicode strings encoded as UTF-8.  This are convience func‐
++     UTF-8	Unicode strings encoded as UTF-8.  These are convenience func‐
+ 		tions to update both the multibyte and wide character strings
+ 		at the same time.
+ 
+@@ -125,7 +125,7 @@
+      chive directly.
+ 
+      For that reason, it is only available as multibyte string.  The link path
+-     is a convience function for conditionally setting hardlink or symlink
++     is a convenience function for conditionally setting hardlink or symlink
+      destination.  It doesn't have a corresponding get accessor function.
+ 
+      archive_entry_set_XXX() is an alias for archive_entry_copy_XXX().
+--- a/doc/text/archive_entry_perms.3.txt
++++ b/doc/text/archive_entry_perms.3.txt
+@@ -105,7 +105,7 @@
+      permission from the given entry.  The corresponding functions
+      archive_entry_set_uid(), archive_entry_set_gid(), and
+      archive_entry_set_perm() store the given user id, group id and permission
+-     in the entry.  The permission is also set as side effect of calling
++     in the entry.  The permission is also set as a side effect of calling
+      archive_entry_set_mode().
+ 
+      archive_entry_strmode() returns a string representation of the permission
+@@ -119,7 +119,7 @@
+      wchar_t *	Wide character strings in the current locale.  The accessor
+ 		functions are named XXX_w().
+ 
+-     UTF-8	Unicode strings encoded as UTF-8.  This are convience func‐
++     UTF-8	Unicode strings encoded as UTF-8.  These are convenience func‐
+ 		tions to update both the multibyte and wide character strings
+ 		at the same time.
+ 
+@@ -148,7 +148,7 @@
+ 
+      The canonical text format is a comma-separated list of flag names.  The
+      archive_entry_copy_fflags_text() and archive_entry_copy_fflags_text_w()
+-     functions parse the provided text and sets the internal bitmap values.
++     functions parse the provided text and set the internal bitmap values.
+      This is a platform-specific operation; names that are not meaningful on
+      the current platform will be ignored.  The function returns a pointer to
+      the start of the first name that was not recognized, or NULL if every
+--- a/doc/wiki/ManPageArchiveEntryPaths3.wiki
++++ b/doc/wiki/ManPageArchiveEntryPaths3.wiki
+@@ -155,7 +155,7 @@
+ '''XXX_w'''(). 
+ </dd><dt>UTF-8</dt><dd> 
+ Unicode strings encoded as UTF-8. 
+-This are convience functions to update both the multibyte and wide 
++These are convenience functions to update both the multibyte and wide 
+ character strings at the same time. 
+ </dd></dl> 
+ 
+@@ -163,7 +163,7 @@
+ archive directly. 
+ 
+ For that reason, it is only available as multibyte string. 
+-The link path is a convience function for conditionally setting 
++The link path is a convenience function for conditionally setting 
+ hardlink or symlink destination. 
+ It doesn't have a corresponding get accessor function. 
+ 
+--- a/doc/wiki/ManPageArchiveEntryPerms3.wiki
++++ b/doc/wiki/ManPageArchiveEntryPerms3.wiki
+@@ -139,7 +139,7 @@
+ and 
+ '''archive_entry_set_perm'''() 
+ store the given user id, group id and permission in the entry. 
+-The permission is also set as side effect of calling 
++The permission is also set as a side effect of calling 
+ '''archive_entry_set_mode'''(). 
+ 
+ '''archive_entry_strmode'''() 
+@@ -156,7 +156,7 @@
+ '''XXX_w'''(). 
+ </dd><dt>UTF-8</dt><dd> 
+ Unicode strings encoded as UTF-8. 
+-This are convience functions to update both the multibyte and wide 
++These are convenience functions to update both the multibyte and wide 
+ character strings at the same time. 
+ </dd></dl> 
+ 
+@@ -195,7 +195,7 @@
+ '''archive_entry_copy_fflags_text'''() 
+ and 
+ '''archive_entry_copy_fflags_text_w'''() 
+-functions parse the provided text and sets the internal bitmap values. 
++functions parse the provided text and set the internal bitmap values. 
+ This is a platform-specific operation; names that are not meaningful 
+ on the current platform will be ignored. 
+ The function returns a pointer to the start of the first name that was not 
+--- a/libarchive/archive_entry_paths.3
++++ b/libarchive/archive_entry_paths.3
+@@ -133,7 +133,7 @@
+ .Fn XXX_w .
+ .It UTF-8
+ Unicode strings encoded as UTF-8.
+-This are convience functions to update both the multibyte and wide
++These are convenience functions to update both the multibyte and wide
+ character strings at the same time.
+ .El
+ .Pp
+@@ -141,7 +141,7 @@
+ archive directly.
+ .Pp
+ For that reason, it is only available as multibyte string.
+-The link path is a convience function for conditionally setting
++The link path is a convenience function for conditionally setting
+ hardlink or symlink destination.
+ It doesn't have a corresponding get accessor function.
+ .Pp
+--- a/libarchive/archive_entry_perms.3
++++ b/libarchive/archive_entry_perms.3
+@@ -126,7 +126,7 @@
+ and
+ .Fn archive_entry_set_perm
+ store the given user id, group id and permission in the entry.
+-The permission is also set as side effect of calling
++The permission is also set as a side effect of calling
+ .Fn archive_entry_set_mode .
+ .Pp
+ .Fn archive_entry_strmode
+@@ -143,7 +143,7 @@
+ .Fn XXX_w .
+ .It UTF-8
+ Unicode strings encoded as UTF-8.
+-This are convience functions to update both the multibyte and wide
++These are convenience functions to update both the multibyte and wide
+ character strings at the same time.
+ .El
+ .Pp
+@@ -182,7 +182,7 @@
+ .Fn archive_entry_copy_fflags_text
+ and
+ .Fn archive_entry_copy_fflags_text_w
+-functions parse the provided text and sets the internal bitmap values.
++functions parse the provided text and set the internal bitmap values.
+ This is a platform-specific operation; names that are not meaningful
+ on the current platform will be ignored.
+ The function returns a pointer to the start of the first name that was not
+--- a/tar/test/test_option_n.c
++++ b/tar/test/test_option_n.c
+@@ -120,7 +120,7 @@
+ 			      "d2/file4\n",
+ 			      "test5.out");
+ 
+-	/* Test 6: -t without -n and non-existant directory selected */
++	/* Test 6: -t without -n and non-existent directory selected */
+ 	assertEqualInt(0,
+ 	    systemf("%s -tf partial-archive.tar d2 >test6.out 2>test6.err",
+ 	    testprog));
+@@ -128,7 +128,7 @@
+ 	assertTextFileContents("d2/file4\n",
+ 			      "test6.out");
+ 
+-	/* Test 7: -t with -n and non-existant directory selected */
++	/* Test 7: -t with -n and non-existent directory selected */
+ 	status = systemf("%s -tnf partial-archive.tar d2 "
+ 	">test7.out 2>test7.err", testprog);
+ 	assert(status);

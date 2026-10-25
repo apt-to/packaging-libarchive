@@ -1,0 +1,17 @@
+Description: archive_read_support_filter_lz4.c: use uint32_c for compressed
+Origin: upstream, https://github.com/libarchive/libarchive/commit/57c8ea90e498f7eb3750248fdad0f6c4a49b60ae
+Bug: https://github.com/libarchive/libarchive/issues/1237
+Author: Martin Matuska <martin@matuska.org>
+Last-Update: 2019-09-20
+
+--- a/libarchive/archive_read_support_filter_lz4.c
++++ b/libarchive/archive_read_support_filter_lz4.c
+@@ -674,7 +674,7 @@
+ lz4_filter_read_legacy_stream(struct archive_read_filter *self, const void **p)
+ {
+ 	struct private_data *state = (struct private_data *)self->data;
+-	int compressed;
++	uint32_t compressed;
+ 	const char *read_buf;
+ 	ssize_t ret;
+ 

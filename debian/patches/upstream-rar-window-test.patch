@@ -1,0 +1,15 @@
+Description: Add test_read_format_rar5_different_window_size.rar.uu to Makefile.am
+Origin: upstream, https://github.com/libarchive/libarchive/commit/869cf8109217d4f9387fc9220b43871ddc9d1c0d
+Author: Martin Matuska <martin@matuska.org>
+Last-Update: 2019-09-20
+
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -834,6 +834,7 @@
+ 	libarchive/test/test_read_format_rar5_arm.rar.uu \
+ 	libarchive/test/test_read_format_rar5_blake2.rar.uu \
+ 	libarchive/test/test_read_format_rar5_compressed.rar.uu \
++	libarchive/test/test_read_format_rar5_different_window_size.rar.uu \
+ 	libarchive/test/test_read_format_rar5_distance_overflow.rar.uu \
+ 	libarchive/test/test_read_format_rar5_extra_field_version.rar.uu \
+ 	libarchive/test/test_read_format_rar5_fileattr.rar.uu \
