@@ -25,3 +25,4 @@ CVE-2022-36227.patch
 CVE-2024-20696.patch
 CVE-2025-25724.patch
 CVE-2026-4111-aptto.patch
+zstd-compression-size-test.patch
