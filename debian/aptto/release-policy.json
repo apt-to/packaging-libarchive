@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "source": "libarchive",
+  "baseVersion": "3.4.0-2ubuntu1.5",
+  "version": "3.4.0-2ubuntu1.5+aptto1",
+  "release": "focal",
+  "architecture": "amd64",
+  "targetCves": [
+    "CVE-2026-4111"
+  ],
+  "sponsorDelayHours": 0,
+  "status": "unverified development backport; not released"
+}

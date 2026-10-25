@@ -1,3 +1,10 @@
+libarchive (3.4.0-2ubuntu1.5+aptto1) focal; urgency=medium
+
+  * Backport upstream fix for CVE-2026-4111.
+  * Include upstream regression fixtures for isolated installed-package tests.
+
+ -- AptTo maintainers <packages@apt.to>  Sun, 25 Oct 2026 10:34:45 +0000
+
 libarchive (3.4.0-2ubuntu1.5) focal-security; urgency=medium
 
   * SECURITY UPDATE: DoS via crafted TAR archive
