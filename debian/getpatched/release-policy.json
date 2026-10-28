@@ -2,6 +2,8 @@
   "schemaVersion": 1,
   "source": "libarchive",
   "baseVersion": "3.4.0-2ubuntu1.5",
+  "futureEsmVersion": "3.4.0-2ubuntu1.5+esm3",
+  "esmPockets": ["focal-infra-security", "focal-infra-updates"],
   "futureEsmUpgradeCompatible": false,
   "version": "3.4.0-2ubuntu1.5+getpatched1",
   "release": "focal",
