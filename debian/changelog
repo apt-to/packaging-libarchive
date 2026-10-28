@@ -1,4 +1,4 @@
-libarchive (3.4.0-2ubuntu1.5+aptto1+getpatched1) focal; urgency=medium
+libarchive (3.4.0-2ubuntu1.5+getpatched1) focal; urgency=medium
 
   * Rebrand the unpublished AptTo pilot candidate for GetPatched.
   * Preserve the reviewed security backport and installed regression tests.
