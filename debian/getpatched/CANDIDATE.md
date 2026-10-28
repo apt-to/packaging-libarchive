@@ -6,4 +6,6 @@ Evaluate CVE-2026-4111 instead. Ubuntu marks focal affected and fixes it in `3.4
 
 The source package remains libarchive, focal amd64, with immediate public binary access. This change does not alter the libxml2 seven-day policy.
 
+The pilot uses the latest publicly available Focal source and binary release. Ubuntu Pro/ESM upgrades are out of scope; the package does not install an APT pin or claim compatibility with Canonical's ESM packages.
+
 References: https://ubuntu.com/security/CVE-2026-4111 and https://github.com/libarchive/libarchive/commit/ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575

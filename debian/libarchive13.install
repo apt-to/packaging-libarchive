@@ -1,2 +1,1 @@
 usr/lib/*/lib*.so.*
-debian/getpatched/90-getpatched-libarchive /etc/apt/preferences.d/
