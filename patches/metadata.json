@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "patches": [
     {
       "id": "cve-2026-4111",
