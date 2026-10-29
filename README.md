@@ -1,46 +1,47 @@
 # GetPatched recipe: libarchive
 
-GetPatched maintains selected security backports for Ubuntu packages whose public Ubuntu support has ended. This repository is the **recipe** for the libarchive package: source references, a pinned build target, patch metadata, the patch, and regression fixtures. The upstream source tree is fetched for each build and is not copied into this Git repository.
+GetPatched maintains selected, tested security backports for package versions whose normal public support has ended. This repository contains the recipe and evidence inputs; it does not vendor a duplicate upstream source tree.
 
-## Package and build target
+## Current target
 
 | Field | Value |
 |---|---|
-| Ubuntu source package | `libarchive` |
-| Ubuntu base | 20.04 LTS (`focal`), public `updates` source |
-| Architecture | `amd64` |
-| Pinned Ubuntu source version | `3.4.0-2ubuntu1.5` |
-| GetPatched package version | `3.4.0-2ubuntu1.5+getpatched1` |
-| Built runtime packages | `libarchive13`, `libarchive-tools` |
-| Access policy | Public immediately after release checks pass |
-| Release status | Development candidate; no package release is published |
+| Target ID | ubuntu-focal-amd64 |
+| Distribution | Ubuntu 20.04 LTS (focal), public updates source |
+| Source package and pinned version | libarchive · 3.4.0-2ubuntu1.5 |
+| GetPatched version | 3.4.0-2ubuntu1.5+getpatched1 |
+| Runtime packages | libarchive13, libarchive-tools |
+| Access | Public after release checks; no sponsor delay |
+| Release state | Development candidate; no production package is published |
 
-`package-manifest.json` is the machine-readable source of truth for this target. It pins the Ubuntu `.dsc`, every source archive URL, file size, and SHA-256. The build downloads those exact files, checks their hashes, and lets `dpkg-source` verify the checksums recorded inside the source descriptor. The source code is the Ubuntu source package, including Ubuntu's Debian packaging and patches; a Git submodule to upstream alone would omit that distro-specific state. The manifest also records that the descriptor and detached upstream archive signature have not been cryptographically verified.
+## Recipe structure and target support
 
-## Versioning and applicability
+package-manifest.json is the package index. It points to targets/ubuntu/focal-amd64.json, which holds this target's exact base, source publication, pinned .dsc and source archives, supported source versions, package version, binary names, patch IDs, and changelog entry. The platform repository's packages.json separately pins the target's build image, snapshot repositories, runner, scan ecosystem, release policy, and whether repository publication is supported.
 
-Only the exact Ubuntu source version in the manifest is supported and tested. Patch metadata names that source version and target explicitly; there is no implied version range. The output version is the full Ubuntu version plus `+getpatched1`. A later rebuild of the same base advances the manifest and platform policy serial to `+getpatched2`, preserving immutable versioned bytes. A different Ubuntu source version needs its own pinned target and regression evidence before it is declared supported.
+A target ID names a distribution, release codename, and architecture, such as ubuntu-focal-amd64 or debian-bookworm-arm64. Add another target as a separate file under targets/<distribution>/<codename>-<architecture>.json, then add its independent platform profile and package policy. Do not claim support or enable publication until that exact combination passes a clean build, installed regressions, vulnerability scans, and an APT client test. This pilot currently supports and can publish only Ubuntu Focal amd64. Debian, other Ubuntu releases, and arm64 are not yet claimed.
 
-## Backport
+The fetched source is the distribution's complete source package, including distro-specific packaging and existing patches. An upstream Git submodule alone would omit that state. Source files are pinned by URL, size, and SHA-256. The source descriptor and detached upstream archive signature have not been cryptographically verified; the recipe records that limitation.
 
-`patches/CVE-2026-4111.patch` backports libarchive's RAR5 filter-block bound check to the pinned focal source. It addresses **CVE-2026-4111** by rejecting a block larger than half the decoder window, preventing the affected no-progress state. The upstream fix is commit [`ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575`](https://github.com/libarchive/libarchive/commit/ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575). The patch carries DEP-3 provenance; `patches/metadata.json` records its checksum, exact target version, CVE, and regression evidence.
+## Patch and version policy
 
-`patches/zstd-test-two-byte-tolerance.patch` is a test-only build compatibility patch for the same exact Focal source version. Focal's zstd library emits a 746-byte stream at compression level 6 and a 744-byte stream at the default level for this tiny test input. The upstream test treats any increase as a failure, though compression ratio is not an archive-format guarantee. The patch allows only a two-byte difference, reports that assertion as skipped, and continues the test's archive readback checks. It changes no installed library or tool code and is recorded separately from the security CVE patch.
+patches/metadata.json records each patch's purpose, checksum, upstream provenance, CVEs, regression tests, and appliesTo targets. An applicability entry may pin one exact source version or express inclusive/exclusive Debian-version bounds. The target's supportedSourceVersions remains an explicit allowlist: a version inside a patch range is not enough to build unless the target lists it and the build and regressions pass. Current patches are pinned to the exact version above.
 
-`tests/fixtures/test_read_format_rar5_loop_bug.rar.uu` is the bounded regression archive. The platform verification runner exercises it with the installed focal library, requires the vulnerable baseline to time out, and requires the patched package to reject it promptly. It also runs a normal `bsdtar` create/extract consumer check. The upstream-style C regression source is retained as review context and is checksum-pinned in patch metadata; the installed-package runner uses the encoded archive and the platform's bounded probe.
+The output version retains the full Ubuntu source version and adds +getpatched1. A new patch release from the same base advances the serial (+getpatched2); a changed distro source version gets its own reviewed target pin and release policy.
+
+CVE-2026-4111.patch backports libarchive's RAR5 filter-block bound check from upstream commit ec19fcbd (https://github.com/libarchive/libarchive/commit/ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575). The encoded regression fixture must time out against the vulnerable baseline and be rejected promptly by the installed patched package; a normal bsdtar create/extract consumer check follows. zstd-test-two-byte-tolerance.patch is a separate test-only compatibility adjustment for the pinned Focal source; it changes no runtime package code and claims no CVE.
+
+## Sponsorship and licensing
+
+This target is public immediately after release checks pass, so it has no sponsor-only binary period. Any active individual GitHub Sponsors sponsorship receives early access only to targets explicitly marked sponsor-first, regardless of tier. A one-time sponsorship qualifies only while GitHub reports it active. For those targets, access ends when GitHub reports the sponsorship as inactive. A signed end-of-cycle cancellation event immediately invalidates cached access; active-only reconciliation runs every 15 minutes, and stale snapshots fail closed. Early binaries may be used privately and commercially but may not be redistributed before public release.
+
+GetPatched-authored recipes, patches, tests, and documentation are MIT-licensed from day one. Anyone may build from public source and redistribute an independent build under MIT and applicable third-party licenses. The MIT file does not replace upstream or Ubuntu copyright and licensing obligations in the source or compiled package. Preserve LICENSES/ubuntu-source-copyright and comply with each included component's license. The prior full-source snapshot remains on the legacy branch: https://github.com/getpatched/packaging-libarchive/tree/legacy
 
 ## Build and verification
 
-From a clean checkout, use the public platform builder on a disposable Linux Docker host:
+From a clean checkout on a disposable Linux Docker host:
 
-```sh
-git clone https://github.com/getpatched/platform.git
-git clone --branch getpatched/focal https://github.com/getpatched/packaging-libarchive.git
-python3 platform/scripts/build-package.py \
-  --source packaging-libarchive \
-  --output build/libarchive
-```
+    git clone https://github.com/getpatched/platform.git
+    git clone --branch getpatched/focal https://github.com/getpatched/packaging-libarchive.git
+    python3 platform/scripts/build-package.py --source packaging-libarchive --target ubuntu-focal-amd64 --output build/libarchive
 
-The builder uses the pinned focal archive snapshot, rebuilds the baseline and patched package images, runs the installed regressions, preserves raw Trivy and custom GetPatched scan reports, and tests signed APT installation of the binaries and source package. It does not publish the build. Ubuntu Pro/ESM compatibility is not tested or claimed.
-
-The previous full-source repository snapshot is preserved on the [`legacy`](https://github.com/getpatched/packaging-libarchive/tree/legacy) branch. Copyright and license notices for the fetched Ubuntu source are retained in `LICENSES/ubuntu-source-copyright` and in the built source package.
+The builder consumes the target's pinned inputs, runs baseline and patched installed-package checks, retains scan evidence, and tests signed APT installation of the binary and source packages. It does not publish binaries. Ubuntu Pro/ESM compatibility is not tested or claimed.
