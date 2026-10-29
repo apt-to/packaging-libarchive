@@ -73,7 +73,10 @@
     "sponsorDelayHours": 0,
     "sponsorEligibility": null,
     "earlyBinaryLicenseId": null,
-    "publicContributionSpdx": "MIT"
+    "publicContributionSpdx": "MIT",
+    "earlyUse": ["private", "commercial"],
+    "earlyRedistributionAllowed": false,
+    "publicBinaryLicenseSpdx": "MIT"
   },
   "status": "unreleased-development-candidate"
 }
