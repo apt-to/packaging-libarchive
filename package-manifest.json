@@ -79,6 +79,9 @@
       "patches": [
         "cve-2026-4111"
       ],
+      "buildPatches": [
+        "zstd-test-size-tolerance"
+      ],
       "releaseAccess": {
         "policy": "public-after-checks",
         "sponsorDelayHours": 0
