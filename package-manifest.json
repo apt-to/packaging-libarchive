@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "project": {
     "name": "GetPatched",
     "repository": "getpatched/packaging-libarchive",
@@ -78,6 +78,9 @@
       ],
       "patches": [
         "cve-2026-4111"
+      ],
+      "buildPatches": [
+        "zstd-test-size-tolerance"
       ],
       "releaseAccess": {
         "policy": "public-after-checks",
