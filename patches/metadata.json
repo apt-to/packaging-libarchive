@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "patches": [
+    {
+      "id": "cve-2026-4111",
+      "file": "CVE-2026-4111.patch",
+      "sha256": "c28af7bc479260c9147b56b70216f3fead4f3aeeb5e7358e09b25449357a9d48",
+      "title": "Reject RAR5 filter blocks larger than half the decoder window",
+      "description": "Rejects an oversized filter block before decoding can enter a state without forward progress.",
+      "cves": [
+        "CVE-2026-4111"
+      ],
+      "upstream": {
+        "repository": "https://github.com/libarchive/libarchive",
+        "commit": "ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575",
+        "url": "https://github.com/libarchive/libarchive/commit/ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575"
+      },
+      "appliesTo": [
+        {
+          "target": "ubuntu-focal-amd64",
+          "sourceVersion": "3.4.0-2ubuntu1.5"
+        }
+      ],
+      "dep3": {
+        "origin": "Backport of the upstream RAR5 filter-block size check.",
+        "forwarded": "not-needed",
+        "lastUpdate": "2026-10-25"
+      },
+      "referenceFiles": [
+        {
+          "path": "tests/fixtures/test_read_format_rar5_loop_bug.c",
+          "sha256": "ecbc886a2ec306593396a85ac6b6dd62c1e2e68d44f81afd1ab4822a09ab4485",
+          "purpose": "Upstream-style regression test source retained as review context; the installed-package test uses the encoded archive below with the platform's bounded archive probe."
+        }
+      ],
+      "tests": [
+        {
+          "id": "rar5-filter-loop-regression",
+          "runner": "getpatched/platform:verification/regression.py",
+          "fixtures": [
+            {
+              "path": "tests/fixtures/test_read_format_rar5_loop_bug.rar.uu",
+              "sha256": "4609f387d61d3b65d12bca738597a0d4d2100fc5341a04409547aa46068b2d53"
+            }
+          ],
+          "baselineExpectation": "The vulnerable focal archive probe times out on the bounded RAR5 fixture.",
+          "patchedExpectation": "The installed focal backport rejects the fixture within the five-second limit; normal bsdtar create/extract checks pass."
+        }
+      ]
+    }
+  ]
+}

@@ -1,224 +1,44 @@
-# Welcome to libarchive!
+# GetPatched recipe: libarchive
 
-The libarchive project develops a portable, efficient C library that
-can read and write streaming archives in a variety of formats.  It
-also includes implementations of the common `tar`, `cpio`, and `zcat`
-command-line tools that use the libarchive library.
+GetPatched maintains selected security backports for Ubuntu packages whose public Ubuntu support has ended. This repository is the **recipe** for the libarchive package: source references, a pinned build target, patch metadata, the patch, and regression fixtures. The upstream source tree is fetched for each build and is not copied into this Git repository.
 
-## Questions?  Issues?
+## Package and build target
 
-* http://www.libarchive.org is the home for ongoing
-  libarchive development, including documentation,
-  and links to the libarchive mailing lists.
-* To report an issue, use the issue tracker at
-  https://github.com/libarchive/libarchive/issues
-* To submit an enhancement to libarchive, please
-  submit a pull request via GitHub: https://github.com/libarchive/libarchive/pulls
+| Field | Value |
+|---|---|
+| Ubuntu source package | `libarchive` |
+| Ubuntu base | 20.04 LTS (`focal`), public `updates` source |
+| Architecture | `amd64` |
+| Pinned Ubuntu source version | `3.4.0-2ubuntu1.5` |
+| GetPatched package version | `3.4.0-2ubuntu1.5+getpatched1` |
+| Built runtime packages | `libarchive13`, `libarchive-tools` |
+| Access policy | Public immediately after release checks pass |
+| Release status | Development candidate; no package release is published |
 
-## Contents of the Distribution
+`package-manifest.json` is the machine-readable source of truth for this target. It pins the Ubuntu `.dsc`, every source archive URL, file size, and SHA-256. The build downloads those exact files, checks their hashes, and lets `dpkg-source` verify the checksums recorded inside the source descriptor. The source code is the Ubuntu source package, including Ubuntu's Debian packaging and patches; a Git submodule to upstream alone would omit that distro-specific state. The manifest also records that the descriptor and detached upstream archive signature have not been cryptographically verified.
 
-This distribution bundle includes the following major components:
+## Versioning and applicability
 
-* **libarchive**: a library for reading and writing streaming archives
-* **tar**: the 'bsdtar' program is a full-featured 'tar' implementation built on libarchive
-* **cpio**: the 'bsdcpio' program is a different interface to essentially the same functionality
-* **cat**: the 'bsdcat' program is a simple replacement tool for zcat, bzcat, xzcat, and such
-* **examples**: Some small example programs that you may find useful.
-* **examples/minitar**: a compact sample demonstrating use of libarchive.
-* **contrib**:  Various items sent to me by third parties; please contact the authors with any questions.
+Only the exact Ubuntu source version in the manifest is supported and tested. Patch metadata names that source version and target explicitly; there is no implied version range. The output version is the full Ubuntu version plus `+getpatched1`. A later rebuild of the same base advances the manifest and platform policy serial to `+getpatched2`, preserving immutable versioned bytes. A different Ubuntu source version needs its own pinned target and regression evidence before it is declared supported.
 
-The top-level directory contains the following information files:
+## Backport
 
-* **NEWS** - highlights of recent changes
-* **COPYING** - what you can do with this
-* **INSTALL** - installation instructions
-* **README** - this file
-* **CMakeLists.txt** - input for "cmake" build tool, see INSTALL
-* **configure** - configuration script, see INSTALL for details.  If your copy of the source lacks a `configure` script, you can try to construct it by running the script in `build/autogen.sh` (or use `cmake`).
+`patches/CVE-2026-4111.patch` backports libarchive's RAR5 filter-block bound check to the pinned focal source. It addresses **CVE-2026-4111** by rejecting a block larger than half the decoder window, preventing the affected no-progress state. The upstream fix is commit [`ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575`](https://github.com/libarchive/libarchive/commit/ec19fcbd20b18bd3b0fdcf2b3fb97789cd1bf575). The patch carries DEP-3 provenance; `patches/metadata.json` records its checksum, exact target version, CVE, and regression evidence.
 
-The following files in the top-level directory are used by the 'configure' script:
-* `Makefile.am`, `aclocal.m4`, `configure.ac` - used to build this distribution, only needed by maintainers
-* `Makefile.in`, `config.h.in` - templates used by configure script
+`tests/fixtures/test_read_format_rar5_loop_bug.rar.uu` is the bounded regression archive. The platform verification runner exercises it with the installed focal library, requires the vulnerable baseline to time out, and requires the patched package to reject it promptly. It also runs a normal `bsdtar` create/extract consumer check. The upstream-style C regression source is retained as review context and is checksum-pinned in patch metadata; the installed-package runner uses the encoded archive and the platform's bounded probe.
 
-## Documentation
+## Build and verification
 
-In addition to the informational articles and documentation
-in the online [libarchive Wiki](https://github.com/libarchive/libarchive/wiki),
-the distribution also includes a number of manual pages:
+From a clean checkout, use the public platform builder on a disposable Linux Docker host:
 
- * bsdtar.1 explains the use of the bsdtar program
- * bsdcpio.1 explains the use of the bsdcpio program
- * bsdcat.1 explains the use of the bsdcat program
- * libarchive.3 gives an overview of the library as a whole
- * archive_read.3, archive_write.3, archive_write_disk.3, and
-   archive_read_disk.3 provide detailed calling sequences for the read
-   and write APIs
- * archive_entry.3 details the "struct archive_entry" utility class
- * archive_internals.3 provides some insight into libarchive's
-   internal structure and operation.
- * libarchive-formats.5 documents the file formats supported by the library
- * cpio.5, mtree.5, and tar.5 provide detailed information about these
-   popular archive formats, including hard-to-find details about
-   modern cpio and tar variants.
+```sh
+git clone https://github.com/getpatched/platform.git
+git clone --branch getpatched/focal https://github.com/getpatched/packaging-libarchive.git
+python3 platform/scripts/build-package.py \
+  --source packaging-libarchive \
+  --output build/libarchive
+```
 
-The manual pages above are provided in the 'doc' directory in
-a number of different formats.
+The builder uses the pinned focal archive snapshot, rebuilds the baseline and patched package images, runs the installed regressions, preserves raw Trivy and custom GetPatched scan reports, and tests signed APT installation of the binaries and source package. It does not publish the build. Ubuntu Pro/ESM compatibility is not tested or claimed.
 
-You should also read the copious comments in `archive.h` and the
-source code for the sample programs for more details.  Please let us
-know about any errors or omissions you find.
-
-## Supported Formats
-
-Currently, the library automatically detects and reads the following fomats:
-  * Old V7 tar archives
-  * POSIX ustar
-  * GNU tar format (including GNU long filenames, long link names, and sparse files)
-  * Solaris 9 extended tar format (including ACLs)
-  * POSIX pax interchange format
-  * POSIX octet-oriented cpio
-  * SVR4 ASCII cpio
-  * Binary cpio (big-endian or little-endian)
-  * ISO9660 CD-ROM images (with optional Rockridge or Joliet extensions)
-  * ZIP archives (with uncompressed or "deflate" compressed entries, including support for encrypted Zip archives)
-  * ZIPX archives (with support for bzip2, ppmd8, lzma and xz compressed entries)
-  * GNU and BSD 'ar' archives
-  * 'mtree' format
-  * 7-Zip archives
-  * Microsoft CAB format
-  * LHA and LZH archives
-  * RAR and RAR 5.0 archives (with some limitations due to RAR's proprietary status)
-  * XAR archives
-
-The library also detects and handles any of the following before evaluating the archive:
-  * uuencoded files
-  * files with RPM wrapper
-  * gzip compression
-  * bzip2 compression
-  * compress/LZW compression
-  * lzma, lzip, and xz compression
-  * lz4 compression
-  * lzop compression
-  * zstandard compression
-
-The library can create archives in any of the following formats:
-  * POSIX ustar
-  * POSIX pax interchange format
-  * "restricted" pax format, which will create ustar archives except for
-    entries that require pax extensions (for long filenames, ACLs, etc).
-  * Old GNU tar format
-  * Old V7 tar format
-  * POSIX octet-oriented cpio
-  * SVR4 "newc" cpio
-  * shar archives
-  * ZIP archives (with uncompressed or "deflate" compressed entries)
-  * GNU and BSD 'ar' archives
-  * 'mtree' format
-  * ISO9660 format
-  * 7-Zip archives
-  * XAR archives
-
-When creating archives, the result can be filtered with any of the following:
-  * uuencode
-  * gzip compression
-  * bzip2 compression
-  * compress/LZW compression
-  * lzma, lzip, and xz compression
-  * lz4 compression
-  * lzop compression
-  * zstandard compression
-
-## Notes about the Library Design
-
-The following notes address many of the most common
-questions we are asked about libarchive:
-
-* This is a heavily stream-oriented system.  That means that
-  it is optimized to read or write the archive in a single
-  pass from beginning to end.  For example, this allows
-  libarchive to process archives too large to store on disk
-  by processing them on-the-fly as they are read from or
-  written to a network or tape drive.  This also makes
-  libarchive useful for tools that need to produce
-  archives on-the-fly (such as webservers that provide
-  archived contents of a users account).
-
-* In-place modification and random access to the contents
-  of an archive are not directly supported.  For some formats,
-  this is not an issue: For example, tar.gz archives are not
-  designed for random access.  In some other cases, libarchive
-  can re-open an archive and scan it from the beginning quickly
-  enough to provide the needed abilities even without true
-  random access.  Of course, some applications do require true
-  random access; those applications should consider alternatives
-  to libarchive.
-
-* The library is designed to be extended with new compression and
-  archive formats.  The only requirement is that the format be
-  readable or writable as a stream and that each archive entry be
-  independent.  There are articles on the libarchive Wiki explaining
-  how to extend libarchive.
-
-* On read, compression and format are always detected automatically.
-
-* The same API is used for all formats; it should be very
-  easy for software using libarchive to transparently handle
-  any of libarchive's archiving formats.
-
-* Libarchive's automatic support for decompression can be used
-  without archiving by explicitly selecting the "raw" and "empty"
-  formats.
-
-* I've attempted to minimize static link pollution.  If you don't
-  explicitly invoke a particular feature (such as support for a
-  particular compression or format), it won't get pulled in to
-  statically-linked programs.  In particular, if you don't explicitly
-  enable a particular compression or decompression support, you won't
-  need to link against the corresponding compression or decompression
-  libraries.  This also reduces the size of statically-linked
-  binaries in environments where that matters.
-
-* The library is generally _thread safe_ depending on the platform:
-  it does not define any global variables of its own.  However, some
-  platforms do not provide fully thread-safe versions of key C library
-  functions.  On those platforms, libarchive will use the non-thread-safe
-  functions.  Patches to improve this are of great interest to us.
-
-* In particular, libarchive's modules to read or write a directory
-  tree do use `chdir()` to optimize the directory traversals.  This
-  can cause problems for programs that expect to do disk access from
-  multiple threads.  Of course, those modules are completely
-  optional and you can use the rest of libarchive without them.
-
-* The library is _not_ thread aware, however.  It does no locking
-  or thread management of any kind.  If you create a libarchive
-  object and need to access it from multiple threads, you will
-  need to provide your own locking.
-
-* On read, the library accepts whatever blocks you hand it.
-  Your read callback is free to pass the library a byte at a time
-  or mmap the entire archive and give it to the library at once.
-  On write, the library always produces correctly-blocked output.
-
-* The object-style approach allows you to have multiple archive streams
-  open at once.  bsdtar uses this in its "@archive" extension.
-
-* The archive itself is read/written using callback functions.
-  You can read an archive directly from an in-memory buffer or
-  write it to a socket, if you wish.  There are some utility
-  functions to provide easy-to-use "open file," etc, capabilities.
-
-* The read/write APIs are designed to allow individual entries
-  to be read or written to any data source:  You can create
-  a block of data in memory and add it to a tar archive without
-  first writing a temporary file.  You can also read an entry from
-  an archive and write the data directly to a socket.  If you want
-  to read/write entries to disk, there are convenience functions to
-  make this especially easy.
-
-* Note: The "pax interchange format" is a POSIX standard extended tar
-  format that should be used when the older _ustar_ format is not
-  appropriate.  It has many advantages over other tar formats
-  (including the legacy GNU tar format) and is widely supported by
-  current tar implementations.
-
+The previous full-source repository snapshot is preserved on the [`legacy`](https://github.com/getpatched/packaging-libarchive/tree/legacy) branch. Copyright and license notices for the fetched Ubuntu source are retained in `LICENSES/ubuntu-source-copyright` and in the built source package.
